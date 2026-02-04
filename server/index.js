@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express()
 const cors = require('cors');
-const nodemailer = require('nodemailer')
+// const nodemailer = require('nodemailer')
+const { Resend } = require('resend');
 require('dotenv').config()
 
 const port = process.env.PORT || 4101;
@@ -51,38 +52,30 @@ app.get("/", (req, res) => {
 //     .then((response) => res.send(response.message))
 //     .catch((error) => res.status(500).send(error.message));
 // });
-app.post("/api/send", async(req, res) => {
-    const { subject, message , from} = req.body;
+
+
+app.post("/api/send", async (req, res) => {
+    const { subject, message, from } = req.body;
+
     try {
-        const transporter = nodemailer.createTransport({
-            service: "gmail",
-            host: "smtp.gmail.com",
-            port: 587,
-            secure: false,
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            },
-            tls: {
-                rejectUnauthorized: false 
-            }
-        });     
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: "kafebuk99@gmail.com",
+        const resend = new Resend(process.env.RESEND_API_KEY);
+
+        await resend.emails.send({
+            from: process.env.EMAIL_FROM_RESEND, 
+            to: process.env.EMAIL_USER,
+            reply_to: from,
             subject: subject,
-            html: `<div>${message}</div>  <div>This is message from: ${from}</div> `,
-            replyTo: from 
-        };
-        await transporter.sendMail(mailOptions)
-        res.json({ message: "Email sent succesfuly" });              
-          
+            html: `
+                <div>${message}</div>
+                <br>
+                <div><strong>This is message from:</strong> ${from}</div>
+            `,
+        });
+
+        res.json({ message: "Email sent successfully" });
     } catch (error) {
-        console.error("Nodemailer ERROR:", error);       // ← dodaj ovo
-        console.error("Error code:", error.code);
-        console.error("Response:", error.response);
+        console.error("Resend ERROR:", error);
         res.status(500).json({ message: "An error has occurred" });
-        
     }
 });
 
