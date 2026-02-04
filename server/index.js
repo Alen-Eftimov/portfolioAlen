@@ -11,8 +11,8 @@ app.use(cors())
 //Middleware to parse incoming JSON requests
 app.use(express.json())
 
-app.get('/api', (req, res) => {
-    res.json({ message: 'Hello from the server!' });
+app.get('/', (req, res) => {
+    res.json({ message: 'API is working!' });
 });
 
 app.post("/api/send", (req, res) => {
