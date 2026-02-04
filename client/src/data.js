@@ -18,8 +18,8 @@ export const portfolio = [
     {
         id: 3,
         img: "assets/img/portfolio-3.jpg",
-        alt: "web shop",
-        title: "Asport Shop",
+        alt: "agrocery cart",
+        title: "Grocery Cart",
         data_target: "#portfolioItem3",
         href: "https://agrocery-cart.netlify.app",
     },
