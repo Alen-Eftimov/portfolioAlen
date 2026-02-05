@@ -8,8 +8,11 @@ import Counters from "../components/Counters";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import Modal from "../components/Modal";
+import { useState } from "react";
 
 const Home = () => {
+  const [selectedId, setSelectedId] = useState(null);
+
   return (
     <div>
       <Navigation />
@@ -18,12 +21,12 @@ const Home = () => {
         <About />
         <Skills />
         <Service />
-        <Portfolio />
+        <Portfolio onOpenModal={(id) => setSelectedId(id)} />
         <Counters />
         <Contact />
       </main>
       <Footer />
-      <Modal />
+      <Modal activeId={selectedId} onClose={() => setSelectedId(null)} />
     </div>
   );
 };
