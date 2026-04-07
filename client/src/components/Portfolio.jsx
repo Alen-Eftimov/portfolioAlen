@@ -1,6 +1,10 @@
+// import { useState } from "react";
 import { portfolio } from "../data";
 
 const Portfolio = ({ onOpenModal }) => {
+  // const [showMore, setShowMore] = useState(false);
+  // const visiblePortfolio = showMore ? portfolio : portfolio.slice(0, 6);
+
   const handleOpenModal = (dataTarget) => {
     const id = dataTarget.replace("#", "");
     onOpenModal(id);
@@ -15,7 +19,8 @@ const Portfolio = ({ onOpenModal }) => {
         </div>
 
         <div className="row">
-          {portfolio.map((item) => (
+          {/* {visiblePortfolio.map((item) => ( */}
+          {portfolio.slice(0, 6).map((item) => (
             <div className="col-md-4 col-xs-6" key={item.id}>
               <div
                 className="portfolio-item"
@@ -53,6 +58,16 @@ const Portfolio = ({ onOpenModal }) => {
             </div>
           ))}
         </div>
+        {/* {portfolio.length > 6 && (
+          <div className="text-center" style={{ marginTop: '20px' }}>
+            <button 
+              className="btn btn-primary" 
+              onClick={() => setShowMore(!showMore)}
+            >
+              {showMore ? "Show Less" : "See More"}
+            </button>
+          </div>
+        )} */}
       </div>
     </section>
   );
